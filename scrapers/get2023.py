@@ -63,6 +63,6 @@ class GetData2023:
         df = pd.DataFrame(data)
 
         # Save the DataFrame to an Excel file
-        file_name = f'data/{file_name}'
+        file_name = f'../data/{file_name}'
         df.to_excel(file_name, index=False)
         print(f"Data saved to {file_name}")

@@ -42,7 +42,7 @@ class GetData:
         # Create a DataFrame from the JSON data
         df = pd.DataFrame(data)
 
-        file_name = f'data/{file_name}'
+        file_name = f'../data/{file_name}'
         df.to_excel(file_name, index=False)
         print(f"Data saved to {file_name}")
 
