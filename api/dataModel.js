@@ -1,0 +1,56 @@
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+const dataSchema = new Schema({
+    p: Number,
+    wp: Number,
+    ap: Number,
+    playerId: Number,
+    tid: Number,
+    nm: String,
+    wn: Number,
+    tp: Number,
+    mins: Number,
+    g: Number,
+    ga: Number,
+    oaa: Number,
+    pae: Number,
+    pw: Number,
+    ps: Number,
+    s: Number,
+    ec: Number,
+    pf: Number,
+    og: Number,
+    gc: Number,
+    yc: Number,
+    syc: Number,
+    rc: Number,
+    tsa: Number,
+    wc: Number,
+    br: Number,
+    pla: Number,
+    pc: Number,
+    pm: Number,
+    mv: Number,
+    mvd: Number,
+    nn: Number,
+    ts: Number,
+    m: Number,
+    pid: Number,
+    lsp: Number,
+    blsp: Number,
+    blspp: Number,
+    currp: Number,
+    pss: Number,
+    tn: Number,
+    avg: Number,
+    ip: Number,
+    ren: Number,
+    slug: String,
+    Temporada: Number,
+    Jornada: Number
+}, { timestamps: true });
+
+const Data = mongoose.model('Data', dataSchema);
+
+module.exports = Data;
