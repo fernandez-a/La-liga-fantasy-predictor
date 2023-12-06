@@ -34,27 +34,11 @@ class Scraper:
         options.add_argument('--window-size=1920,1080')
         options.add_argument('--ignore-certificate-errors')
         self.driver = webdriver.Chrome(options=options)
-        with open('matches_all_season.pkl', 'rb') as f:
+        with open('./pickles/matches_all_season.pkl', 'rb') as f:
             self.matches_all_season = pickle.load(f)
-        self.headers_list = {
-            'authority': 'fbref.com',
-                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-                'accept-language': 'es-ES,es;q=0.9,en-GB;q=0.8,en;q=0.7,nl;q=0.6,fr;q=0.5',
-                'cache-control': 'max-age=0',
-                'if-modified-since': 'Sat, 02 Dec 2023 19:36:43 GMT',
-                'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
-                'sec-ch-ua-mobile': '?0',
-                'sec-ch-ua-platform': '"Windows"',
-                'sec-fetch-dest': 'document',
-                'sec-fetch-mode': 'navigate',
-                'sec-fetch-site': 'none',
-                'sec-fetch-user': '?1',
-                'sec-gpc': '1',
-                'upgrade-insecure-requests': '1'
-                 }
 
 
-    def extract_table_data(self,url,headers_list, season):
+    def extract_table_data(self,url, season):
         self.driver.get('https://www.google.com')
         self.driver.get(url)
 
@@ -63,16 +47,16 @@ class Scraper:
         except NoSuchElementException:
             pass
         soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-        table = soup.find("table", {"class": "stats_table"}) 
 
         player_stats = soup.find_all('div', id=re.compile('all_keeper_stats_.*')) 
-        headers = [th.text for th in player_stats[0].find('thead').find_all('tr')[1].find_all('th')]
+        headers = [th.get('data-stat') for th in player_stats[0].find('thead').find_all('tr')[1].find_all('th')]
         matchweek_string = soup.find(string=re.compile('Matchweek \d+')).strip()
         matchweek = int(re.search(r'\d+', matchweek_string).group())
         headers.append('Matchweek')
         headers.append('Season')
         rows = []
         for i in player_stats:
+            i = i.find('div',id = re.compile('div_keeper_stats_.*'))
             for tr in i.find('tbody').find_all('tr'):
                 row = [tr.find('th').text]
                 row.extend([td.text for td in tr.find_all('td')])
@@ -93,7 +77,7 @@ for i in scraper.matches_all_season:
     os.makedirs(f"data/{season}", exist_ok=True)
     
     for chunk_index, chunk in enumerate(match_chunks):
-        filename = f"data/{season}/{season}_chunk_{chunk_index}_goalkeeper.csv"
+        filename = f"data/{season}/{season}_chunk_{chunk_index}_goalkeepers.csv"
         if os.path.exists(filename):
             print(f"File {filename} already exists. Skipping...")
             continue
@@ -102,7 +86,7 @@ for i in scraper.matches_all_season:
         all_rows = []
         for match in chunk:
             url = f"https://fbref.com{match}"
-            headers, rows , matchweek = scraper.extract_table_data(url, scraper.headers_list, season)
+            headers, rows , matchweek = scraper.extract_table_data(url, season)
             all_rows.extend(rows)
             common_headers = headers
 
