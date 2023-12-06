@@ -34,7 +34,7 @@ class Scraper:
         options.add_argument('--window-size=1920,1080')
         options.add_argument('--ignore-certificate-errors')
         self.driver = webdriver.Chrome(options=options)
-        with open('matches_all_season.pkl', 'rb') as f:
+        with open('../pickles/all_matches.pkl', 'rb') as f:
             self.matches_all_season = pickle.load(f)
         self.headers_list = {
             'authority': 'fbref.com',
@@ -90,10 +90,10 @@ for i in scraper.matches_all_season:
     matches = i['matches']
     match_chunks = [matches[n:n+10] for n in range(0, len(matches), 10)]
 
-    os.makedirs(f"data/{season}", exist_ok=True)
+    os.makedirs(f"./all_seasons_data/{season}", exist_ok=True)
     
     for chunk_index, chunk in enumerate(match_chunks):
-        filename = f"data/{season}/{season}_chunk_{chunk_index}_passing.csv"
+        filename = f"./all_seasons_data/{season}/{season}_chunk_{chunk_index}_passing.csv"
         if os.path.exists(filename):
             print(f"File {filename} already exists. Skipping...")
             continue

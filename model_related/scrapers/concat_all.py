@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 seasons = [f"{year}-{year+1}" for year in range(2017, 2024)]
-folder_path = "./season_data/"
+folder_path = "./all_seasons/2017-2018"
 
 def concatenate(season):
     all_files = glob.glob(os.path.join(folder_path, f"season_{season}.csv"))
