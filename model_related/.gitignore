@@ -1,3 +1,6 @@
+all_seasons_data/
+all_seasons/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
