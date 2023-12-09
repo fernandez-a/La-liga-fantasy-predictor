@@ -9,6 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+from termcolor import colored
 
 seasons = [f"{year}-{year+1}" for year in range(2017, 2024)]
 
@@ -71,6 +72,7 @@ class Scraper:
         matchweek = int(re.search(r'\d+', matchweek_string).group())
         headers.append('Matchweek')
         headers.append('Season')
+        headers.append('Equipo')
         rows = []
         for i in player_stats:
             i = i.find('div',id = re.compile('div_stats_.*_passing_type'))
@@ -79,6 +81,7 @@ class Scraper:
                 row.extend([td.text for td in tr.find_all('td')])
                 row.append(matchweek)
                 row.append(season)
+                row.append(i.find('caption').text.split('Player')[0])
                 rows.append(row)
                 
 
@@ -88,6 +91,7 @@ scraper = Scraper()
 
 for i in scraper.matches_all_season:
     season = i["season"]
+    print(colored(f'Start scraping passing-type stats for season {season}', 'cyan'))
     matches = i['matches']
     match_chunks = [matches[n:n+10] for n in range(0, len(matches), 10)]
 
@@ -96,7 +100,6 @@ for i in scraper.matches_all_season:
     for chunk_index, chunk in enumerate(match_chunks):
         filename = f"./all_seasons_data/{season}/{season}_chunk_{chunk_index}_passing_type.csv"
         if os.path.exists(filename):
-            print(f"File {filename} already exists. Skipping...")
             continue
 
         headers = []
@@ -109,4 +112,4 @@ for i in scraper.matches_all_season:
 
         df = pd.DataFrame(all_rows, columns=common_headers)
         df.to_csv(filename, index=False)
-        print(f"Saved {filename}")
+    print(colored(f'Finished scraping passing-type for season {season}', 'green'))

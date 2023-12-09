@@ -1,14 +1,20 @@
+import sys
 import glob
 import subprocess
-import os
-import concurrent.futures
+from termcolor import colored
+from art import *
 
-python_files = glob.glob('./fref*.py')
-for file in python_files:
-    subprocess.run(['python', file])
+class Scraper:
+    def __init__(self):
+        print(text2art("FREF scraper"))  # ASCII Art
+        self.python_files = glob.glob('./fref*.py')
 
+    def run(self):
+        for file in self.python_files:
+            print(colored('Starting script: ', 'green') + colored(file, 'blue'))
+            subprocess.run([sys.executable, file])
+            print(colored('Finished running: ', 'green') + colored(file, 'blue'))
 
-# files = glob.glob('./data/*/*.csv')
-# for file in files:
-#     if "_summary.csv" not in file:
-#         os.remove(file)import glob
+if __name__ == "__main__":
+    scraper = Scraper()
+    scraper.run()

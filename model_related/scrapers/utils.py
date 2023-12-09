@@ -29,11 +29,13 @@ def mergeGw(season, folder_path,rounds):
     for i in range(rounds):
         all_files = glob.glob(os.path.join(folder_path, f"{season}/gw_{i}/*.csv"))
         df = pd.read_csv(all_files[0])
+        df = df.set_index('player')
         data_frames = []
         for file in all_files[1:]:
             if 'goalkeepers' in str(file):
-                df_other = pd.read_csv(file)
-                df_other['position'] = 'GK'
+                continue
+                #df_other = pd.read_csv(file)
+                #df_other['position'] = 'GK'
             else:
                 df_other = pd.read_csv(file)
             df1 = pd.merge(df, df_other, on=['player'], suffixes=('','_remove'))
@@ -47,7 +49,6 @@ def mergeGw(season, folder_path,rounds):
 #3
 def concatenateGw(season, folder_path):
     all_files = glob.glob(os.path.join(folder_path, f"{season}/*.csv"))
-    print(all_files)
     data_frames = []
     for file in all_files:
         df = pd.read_csv(file)
