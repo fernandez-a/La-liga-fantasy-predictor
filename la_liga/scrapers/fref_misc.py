@@ -98,8 +98,8 @@ for i in scraper.matches_all_season:
     
     for chunk_index, chunk in enumerate(match_chunks):
         filename = f"./all_seasons_data/{season}/{season}_chunk_{chunk_index}_misc.csv"
-        #if os.path.exists(filename):
-        #    continue
+        if os.path.exists(filename):
+            continue
 
         headers = []
         all_rows = []

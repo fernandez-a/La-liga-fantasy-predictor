@@ -162,5 +162,4 @@ cython_debug/
 #.idea/
 
 #data folder
-season_data/
 all_seasons_data/
