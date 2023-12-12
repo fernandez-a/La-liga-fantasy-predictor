@@ -16,7 +16,6 @@ def concatenateChunks(season, folder_path, rounds):
         chunk_dir = os.path.join(folder_path, f"{season}/gw_{i}")
         os.makedirs(chunk_dir, exist_ok=True)
         
-        # Move the matched files to the new directory
         for file in matched_files:
             os.rename(file, os.path.join(chunk_dir, os.path.basename(file)))
             
@@ -32,18 +31,17 @@ def mergeGw(season, folder_path,rounds):
         df['unique_id'] = df['player'] + '_' + df['Equipo'] + '_' + df['Matchweek'].astype(str)
         data_frames = []
         for file in all_files[1:]:
-            # Read the file into a DataFrame
             df_other = pd.read_csv(file)
             if 'goalkeepers' in file:
                 continue
-            df_other['unique_id'] = df_other['player'] + '_' + df_other['Equipo'] + '_' + df_other['Matchweek'].astype(str)
-            df = pd.merge(df, df_other, on=['unique_id'],how='inner', suffixes = ('','_remove'))
-            df = df.reset_index(drop=True)
-            df = df[df.columns.drop(list(df.filter(regex='_remove')))]
+                # df_other['unique_id'] = df_other['player'] + '_' + df_other['Equipo'] + '_' + df_other['Matchweek'].astype(str)
+                # df = pd.merge(df, df_other, on=['unique_id'],how='inner', suffixes = ('','_remove'))
+                # df = df.reset_index(drop=True)
+                # df = df[df.columns.drop(list(df.filter(regex='_remove')))]
         data_frames.append(df)
         all_seasons_df = pd.concat(data_frames, axis=0)
         os.makedirs(f"./season_data/{season}", exist_ok=True)
-        all_seasons_df.to_csv(f"./season_data/{season}/season_{season}_gw{i}.csv", index=False)
+        all_seasons_df.to_csv(f"./season_data/{season}/season_{season}_gw{i}_gk.csv", index=False)
     print(f'Succesfully merged into season {season}')
 
 
@@ -52,18 +50,19 @@ def concatenateGw(season, folder_path):
     all_files = glob.glob(os.path.join(folder_path, f"{season}/*.csv"))
     data_frames = []
     for file in all_files:
-        df = pd.read_csv(file)
-        df = df.drop_duplicates(subset=['unique_id'])
-        data_frames.append(df)
+        if 'gk' in file:
+            df = pd.read_csv(file)
+            df = df.drop_duplicates(subset=['unique_id'])
+            data_frames.append(df)
     all_seasons_df = pd.concat(data_frames, axis=0)
     os.makedirs("./season_data", exist_ok=True)
-    all_seasons_df.to_csv(f"./season_data/season_{season}.csv", index=False)
+    all_seasons_df.to_csv(f"./season_data/season_{season}_gk.csv", index=False)
     print(f'Succesfully merged into season {season}')
 
 
 #4 
 def concatenate_all(folder_path):
-    all_files = glob.glob(os.path.join(folder_path, f"*.csv"))
+    all_files = glob.glob(os.path.join(folder_path, f"*_gk.csv"))
 
     data_frames = []
 
@@ -72,5 +71,5 @@ def concatenate_all(folder_path):
         data_frames.append(df)
     
     all_seasons_df = pd.concat(data_frames, ignore_index=True)
-    all_seasons_df.to_csv(f"./season_data/all_seasons.csv", index=False)
+    all_seasons_df.to_csv(f"./season_data/all_seasons_gk.csv", index=False)
     print(f'Succesfully merged all seasons')
