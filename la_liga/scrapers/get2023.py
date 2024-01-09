@@ -22,7 +22,7 @@ class GetData2023:
         'sec-gpc': '1',
     }
 
-    def retrieve_rounds(self, season):
+    def retrieve_rounds(self):
         json_data = {
             'league': 1,
             'season': '2023',
@@ -38,7 +38,7 @@ class GetData2023:
             data_json = response.json()['rounds']
             return data_json
 
-    def retrieve_data(self, season, week):
+    def retrieve_data(self, week):
         json_data = {
             'league': 1,
             'season': '2023',
