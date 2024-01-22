@@ -6,10 +6,10 @@ authors = ["Alejandro.F <alejandro.fernandezarmas@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "3.9"
-streamlit = "^1.30.0"
 scikit-learn = "^1.3.2"
 plotly = "^5.18.0"
 matplotlib = "^3.8.2"
+streamlit = "^1.30.0"
 
 
 [build-system]

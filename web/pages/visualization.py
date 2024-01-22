@@ -59,25 +59,33 @@ if statistics:
 if plot_stats:
     print(multiselect_filter)
     stats_columns = [stats_dict[stat] for stat in plot_stats]
-    fig, axis = plt.subplots(3, 1, figsize=(10,30))
+    fig, axis = plt.subplots(2, 2, figsize=(15,15))
     if plot_stats != None: 
         if 'position' in stats_columns:
             position_data = filtered_data['pid'].value_counts().reset_index()
             position_data['index'] = position_data['pid'].map(position_dict) 
-            axis[0].pie(position_data['pid'], labels = position_data['index'],autopct='%1.1f%%')
-            axis[0].set_title('Position')
+            axis[0,0].pie(position_data['pid'], labels = position_data['index'],autopct='%1.1f%%')
+            axis[0,0].set_title('Position')
         if 'mins' in stats_columns:
             grouped_data = filtered_data.groupby('nn')['mins'].sum().sort_values(ascending=False).reset_index()
-            grouped_data.plot(x='nn', y='mins', kind='line', ax=axis[1])
-            axis[1].set_title('Mins')
+            grouped_data.plot(x='nn', y='mins', kind='line', ax=axis[0,1])  # Adjusted axis index
+            axis[0,1].set_title('Mins')
         if 'g' in stats_columns :
+            temp_data = filtered_data  # Use a temporary variable to avoid overwriting filtered_data
             if not multiselect_filter:
-                filtered_data = filtered_data.sort_values(by=['g'], ascending=False).reset_index(drop=True)
-                filtered_data = filtered_data.head(60)
-            grouped_data = filtered_data.groupby('nn')['g'].sum().sort_values(ascending=False).reset_index()
-            grouped_data.plot(x='nn', y='g', kind='bar', ax=axis[2])
-            axis[2].set_title('Goals')
-
+                temp_data = temp_data.sort_values(by=['g'], ascending=False).reset_index(drop=True)
+                temp_data = temp_data.head(60)
+            grouped_data = temp_data.groupby('nn')['g'].sum().sort_values(ascending=False).reset_index()
+            grouped_data.plot(x='nn', y='g', kind='bar', ax=axis[1,0])  # Adjusted axis index
+            axis[1,0].set_title('Goals')
+        if 'rc' in stats_columns :
+            temp_data = filtered_data
+            if not multiselect_filter:
+                temp_data = temp_data.sort_values(by=['rc'], ascending=False).reset_index(drop=True)
+                temp_data = temp_data.head(60)
+            grouped_data = temp_data.groupby('nn')['rc'].sum().sort_values(ascending=False).reset_index()
+            grouped_data.plot(x='nn', y='rc', kind='bar', ax=axis[1,1])  # Adjusted axis index
+            axis[1,1].set_title('Red Cards')
     plt.tight_layout()
     st.pyplot(fig)
 
