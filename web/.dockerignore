@@ -3,4 +3,3 @@ __pycache__
 .venv
 .vscode
 poetry.lock
-pyproject.toml
