@@ -1,4 +1,4 @@
-La liga Española points predictor
+# La liga Española points predictor
 
 This project uses machine learning to predict the performance of each player for la liga española.
 
@@ -26,4 +26,4 @@ For the web app testing Docker need to be installed https://docs.docker.com/engi
 
 ## Authors
 
-* **Alejandro** - [fernandez-a](https://github.com/fernandez-a)
+* **Alejandro Fernández Armas** - [fernandez-a](https://github.com/fernandez-a)
