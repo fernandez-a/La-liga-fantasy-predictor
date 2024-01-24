@@ -64,7 +64,6 @@ def merge_forecast_data(forecast_datasets, model, weeks_to_forecast):
 
 def update_rolling_features(df, weeks):
     for week in range(weeks):
-        print(f'Updating rolling features for week {week}')
         for col in df.columns:
             if 'last' in col:
                 num_weeks = last_matchweek
@@ -77,7 +76,6 @@ weeks_to_forecast = 4
 forecast_datasets = {}
 
 for i in range(1, weeks_to_forecast + 1):
-    print(f'Creating dataset for week {i}')
     updated_data = update_rolling_features(latest_data.copy(), weeks=i)
     updated_data.drop(['Jornada', 'Temporada','avg','tp'], axis=1, inplace=True)
     updated_data.fillna(0, inplace=True)
