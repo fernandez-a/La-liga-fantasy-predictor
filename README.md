@@ -15,9 +15,8 @@ As poetry is being used for the dependency managment , you need to install the .
 
 For the web app testing Docker need to be installed https://docs.docker.com/engine/install/ubuntu/ , once its downloaded.
 
-1. docker build -t <image name>
-2. docker run <image name>
-
+1. docker build -t <image_name>
+2. docker run <image_name>
 ## Built With
 
 * [Python](https://www.python.org/) - The programming language used.
