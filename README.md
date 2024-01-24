@@ -7,11 +7,11 @@ This project uses machine learning to predict the performance of each player for
 
 ### Installing
 
-As poetry is being used for the dependency managment , you need to install the .toml for the la_liga folder and install the image for the webapp
+As poetry is being used for the dependency managment , you need to install the .tom following the commands:
 
-
-
-## Deployment
+1. If your python version is not compatible install it through pyenv.
+2. Once install: pyenv global 3.9.0
+3. poetry install
 
 For the web app testing Docker need to be installed https://docs.docker.com/engine/install/ubuntu/ , once its downloaded.
 
