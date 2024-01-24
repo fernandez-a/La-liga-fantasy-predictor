@@ -19,10 +19,4 @@ This is a project that predict the points of a player in a specific gameweek
 The visualization page gives you the option to select a player or a team and plot some stats for the different gameweeks.
 The prediction page gives you the option to select a player and it will predict the points for the next gameweek.
 
-For more information, see the project documentation.
-""")
-
-# You can also use markdown
-st.markdown("""
-**Note:** This is a note written in markdown.
 """)
