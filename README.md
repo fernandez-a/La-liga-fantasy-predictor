@@ -7,8 +7,7 @@ This project uses machine learning to predict the performance of each player for
 
 ### Installing
 
-As poetry is being used for the dependency managment , you need to install the .tom following the commands:
-
+As poetry is being used for the dependency managment , you need to install the .tom following the commands for the la_liga folder:
 1. If your python version is not compatible install it through pyenv https://github.com/pyenv/pyenv.
 2. Once install: pyenv global 3.9.0
 3. poetry install
